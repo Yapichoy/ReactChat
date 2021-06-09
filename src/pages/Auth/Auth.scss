@@ -1,0 +1,45 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  &__top {
+    text-align: center;
+    margin-bottom: 50px;
+    h2{
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    p {
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 21px;
+      letter-spacing: 0.1px;
+      color: #202002;
+    }
+  }
+  .block {
+    width: 430px;
+  }
+  &__register-link {
+    text-align: center;
+    display: block;
+    color: #ADADAD;
+  }
+  &__success-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    min-height: calc(517px - 90px);
+    svg {
+      width: 65px;
+      height: 61px;
+    }
+    p{
+      color: #ADADAD;
+      line-height: 26px;
+    }
+  }
+}
