@@ -1,11 +1,10 @@
 import {Form, Input} from "antd";
-import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {LockOutlined, MailOutlined} from "@ant-design/icons";
 import {Block, Button} from "../../../components";
 import { Link } from 'react-router-dom';
-const LoginForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
+import {validateField} from "../../../utils/helpers/indwx";
+
+const LoginForm = ({values, touched, errors, isSubmitting,handleChange, handleBlur, handleSubmit, handleReset, dirty}) => {
   return (
     <div>
       <div className="auth__top">
@@ -19,39 +18,38 @@ const LoginForm = () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={handleSubmit}
         >
-          <Form.Item
-            name="email"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-              {
-                email: true,
-                message: 'Please true Email!',
-              },
-            ]}
-          >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} type='email' placeholder="Email" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
+            <Form.Item
+                name="email"
+                hasFeedback
+                validateStatus={validateField('email', touched, errors)}
+                rules={[
+                    {
+                        required: true,
+                        message: 'Пожалуйста, введите ваш email!',
+                    }, {email: true, message: 'This email'},
+                ]}
+            >
+                <Input prefix={<MailOutlined/>} name='email' value={values.email} placeholder="E-mail" onChange={handleChange} onBlur={handleBlur}/>
+            </Form.Item>
+            <Form.Item
+                name="password"
+                hasFeedback
+                validateStatus={validateField('password', touched, errors)}
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your Password!',
+                    },
+                ]}
+            >
+                <Input
+                    prefix={<LockOutlined className="site-form-item-icon"/>}
+                    type="password"
+                    placeholder="Пароль"
+                />
+            </Form.Item>
           <Form.Item>
             <Button type='primary' htmlType="submit" size="large">Войти в аккаунт</Button>
           </Form.Item>

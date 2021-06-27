@@ -1,23 +1,27 @@
 import * as PropTypes from "prop-types";
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import rulocale from 'date-fns/locale/ru';
 import classNames from 'classnames';
-import readedSvg from '../../resources/img/readed.svg';
-import unreadedPng from '../../resources/img/check.svg';
 import './Message.scss';
+import {IconRead, Time} from "../index";
 
-const Message = ({avatar, user, text, date, isMe, isReaded, attachments}) => {
+const Message = ({avatar, user, text, date, isMe, isReaded, attachments, isTyping}) => {
   return (
-    <div className={classNames('message', {'message--isme': isMe})}>
+    <div className={classNames('message', {
+      'message--isme': isMe,
+      'message==is-typing': isTyping
+    })}>
       <div className="message__content">
-        {isMe && isReaded && <img className='message__icon-readed' src={readedSvg} alt=""/>}
-        {isMe && !isReaded && <img className='message__icon-readed' src={unreadedPng} alt=""/>}
+        <IconRead isMe={isMe} isReaded={isReaded}/>
         <div className="message__avatar">
           <img src={avatar} alt={`Avatar ${user.name}`}/>
         </div>
         <div className="message__info">
           <div className="message__bubble">
             <p className="message__text">{text}</p>
+            {isTyping && (<div className="message__typing">
+              <span className="dot-one"></span>
+              <span className="dot-two"></span>
+              <span className="dot-three"></span>
+            </div>)}
           </div>
           <div className="message__attachments">
             {
@@ -28,9 +32,11 @@ const Message = ({avatar, user, text, date, isMe, isReaded, attachments}) => {
               ))
             }
           </div>
+          {date && (
           <span className="message__date">
-          {formatDistanceToNow(new Date(date), {addSuffix: true, locale: rulocale})}
+          <Time date={date}/>
          </span>
+          )}
         </div>
       </div>
     </div>
@@ -51,6 +57,7 @@ Message.propTypes = {
   text: PropTypes.string,
   date: PropTypes.string,
   user: PropTypes.object,
-  attachments: PropTypes.array
+  attachments: PropTypes.array,
+  isTyping: PropTypes.bool
 }
 export default Message;

@@ -3,12 +3,9 @@ import {useState} from 'react';
 import {LockOutlined, UserOutlined, MailOutlined, InfoCircleTwoTone} from "@ant-design/icons";
 import {Block, Button} from "../../../components";
 import {Link} from 'react-router-dom';
+import {validateField} from "../../../utils/helpers/indwx";
 
 const RegisterForm = ({values, touched, errors, isSubmitting,handleChange, handleBlur, handleSubmit, handleReset, dirty}) => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    setSuccess(true);
-  };
   let [success, setSuccess] = useState(false);
   return (
     <div>
@@ -35,7 +32,7 @@ const RegisterForm = ({values, touched, errors, isSubmitting,handleChange, handl
             <Form.Item
               name="email"
               hasFeedback
-              validateStatus={errors.email && touched.email ? 'error' : 'success'}
+              validateStatus={validateField('email', touched, errors)}
               rules={[
                 {
                   required: true,
@@ -59,6 +56,7 @@ const RegisterForm = ({values, touched, errors, isSubmitting,handleChange, handl
             </Form.Item>
             <Form.Item
               name="password"
+              validateStatus={validateField('password', touched, errors)}
               rules={[
                 {
                   required: true,
